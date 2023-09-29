@@ -53,9 +53,7 @@ table {
 	border-collapse: collapse;
 	border-spacing: 0;
 }
-body {
 
-}
 section {
 	margin-block: 6em;
 }
@@ -121,16 +119,36 @@ header {
 	object-fit: cover;
 	object-position: center;
 }
+
+.banner-slides{
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	z-index: -1;
+	object-fit: cover;
+	object-position: center;
+	overflow: hidden;
+}
+
+
+
 /* Code CSS en prévision de l'ajout d'un carousel pour la bannière */
 /* Gestion des fleches du carrousel */
+
+
 #banner .arrow {
 	position: absolute;
 }
-#banner .arrow_left {
-	left: 10px;
+.arrow_left {
+    left: 10px;
+    top: 50%; /* Position verticale centrée */
+    transform: translateY(-50%); /* Ajuste la position verticale pour le centrage */
 }
-#banner .arrow_right {
-	right: 10px;
+
+.arrow_right {
+    right: 10px;
+    top: 50%; /* Position verticale centrée */
+    transform: translateY(-50%); /* Ajuste la position verticale pour le centrage */
 }
 /* Gestion des points du carrousel */
 .dots {
@@ -138,7 +156,13 @@ header {
 	bottom: 40px;
 	display: flex;
 }
+.dots-container {
+    position: absolute;
+	bottom: 40px;
+	display: flex;
+}
 .dot {
+	display: inline-block; /*ajout*/
 	margin-inline: 5px;
 	width: 13px;
 	height: 13px;
@@ -147,10 +171,19 @@ header {
 	border-radius: 100%;
 	box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);;
 }
-.dot_selected {
-	background-color: #fff;
+.dot.active{
+	background-color:#fff;
+	height: 15px;
+	width: 15px;
 }
+
+
+
+
+
 /* Fin du code CSS pour le carousel */
+
+
 #banner p {
 	font-family: 'Roboto Slab', sans-serif;
 	font-weight: 900;
