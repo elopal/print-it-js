@@ -50,7 +50,7 @@ for (let i = 0; i < nombreSlides; i++) {
   dotsParent.appendChild(dot); // Ajout des dot au conteneur<div> des dots
 }
 
-//-------------------------------------------------- Mise en place du défilement infini sur le carrousel -----------------------------------------------------------------------------------
+//-------------------------------------------------- Mise en place des mises à jour du contenu du carrousel -----------------------------------------------------------------------------------
 
 // Sélection des flèches de navigation
 let arrowLeft = document.querySelector(".arrow_left"); // Sélection de la flèche gauche
@@ -90,6 +90,8 @@ function updateContent(index) {
     }
   });
 }
+
+//-------------------------------------------------- Mise en place du défilement infini sur le carrousel -----------------------------------------------------------------------------------
 
 // Ajout d'un event listener pour la flèche droite
 arrowRight.addEventListener("click", function() {
