@@ -1,434 +1,110 @@
-// Données des diapositives
 const slides = [
-    {
-        "image": "slide1.jpg",
-        "tagLine": "Impressions tous formats <span>en boutique et en ligne</span>"
-    },
-    {
-        "image": "slide2.jpg",
-        "tagLine": "Tirages haute définition grand format <span>pour vos bureaux et events</span>"
-    },
-    {
-        "image": "slide3.jpg",
-        "tagLine": "Grand choix de couleurs <span>de CMJN aux pantones</span>"
-    },
-    {
-        "image": "slide4.png",
-        "tagLine": "Autocollants <span>avec découpe laser sur mesure</span>"
-    }
-];
+	{
+		"image":"slide1.jpg",
+		"tagLine":"Impressions tous formats <span>en boutique et en ligne</span>"
+	},
+	{
+		"image":"slide2.jpg",
+		"tagLine":"Tirages haute définition grand format <span>pour vos bureaux et events</span>"
+	},
+	{
+		"image":"slide3.jpg",
+		"tagLine":"Grand choix de couleurs <span>de CMJN aux pantones</span>"
+	},
+	{
+		"image":"slide4.png",
+		"tagLine":"Autocollants <span>avec découpe laser sur mesure</span>"
+	}
+]
 
-// Sélection du conteneur des diapositives
-const bannerSlides = document.querySelector(".banner-slides");
+// Calcule du nombre d'éléments dans le tableau
+const nombreSlides = slides.length;
+console.log(nombreSlides); // Affiche le nombre de diapositives dans la console
+let currentIndex = 0; // Initialise un indice pour suivre la diapositive actuelle
 
-// Fonction pour créer et afficher une diapositive
-function createAndShowSlide(slide, index) {
-    //fonction qui prend deux arguments, elle crée et affiche une diapositive à partir des données fournies.
+// Sélection du conteneur pour les images, les textes et les dots
+const imgParent = document.querySelector(".banner-slides"); // Sélection du conteneur<div> des <img> + <p>
+const dotsParent = document.querySelector(".dots"); // Sélection du conteneur<div> des dots 
 
-    // Crée un nouvel élément <div> pour la diapositive.
-    const slideDiv = document.createElement("div");
-    // Ajoute la classe CSS "banner-img" à la diapositive.
-    slideDiv.classList.add("banner-img");
+// Création et ajout des éléments aux conteneurs
+for (let i = 0; i < nombreSlides; i++) {
+  // Création de la balise "img" pour chaque diapositive
+  const image = document.createElement("img");
+  image.classList.add("banner-img"); // Ajout de la classe "banner-img"
+  image.src = "assets/images/slideshow/" + slides[i].image; // Source de l'image
 
-    // Crée un nouvel élément <img> pour afficher l'image de la diapositive.
-    const img = document.createElement("img");
-    // Définit la source de l'image en fonction de la propriété 'image' de l'objet 'slide'.
-    img.src = `./assets/images/slideshow/${slide.image}`;
-    // Définit le texte alternatif de l'image, qui inclut l'index + 1 pour plus de précision.
-    img.alt = `Banner img${index + 1}`;
+  // Création de la balise "p" pour la tagline de chaque diapositive
+  const paragraphe = document.createElement("p");
+  paragraphe.classList.add("tagLine"); // Ajout de la classe "tagLine"
+  paragraphe.innerHTML = slides[i].tagLine; // Contenu du paragraphe
 
-    // Crée un nouvel élément <p> pour afficher le texte de la diapositive.
-    const p = document.createElement("p");
-    // Ajoute la classe CSS "tagLine" au paragraphe pour appliquer les styles.
-    p.className = "tagLine";
-    // Définit le contenu HTML du paragraphe en utilisant la propriété 'tagLine' de 'slide'.
-    p.innerHTML = slide.tagLine;
+  // Création de la balise "div" pour chaque dot 
+  const dot = document.createElement("div");
+  dot.classList.add("dot"); // Ajout de la classe "dot"
 
-    // Ajoute l'élément <img> (l'image) en tant qu'enfant de la diapositive.
-    slideDiv.appendChild(img);
-    // Ajoute l'élément <p> (le texte) en tant qu'enfant de la diapositive.
-    slideDiv.appendChild(p);
-    // Ajoute la diapositive complète à l'élément parent 'bannerSlides'.
-    bannerSlides.appendChild(slideDiv);
+  // Ajout des éléments créés au conteneur qui correspond
+  imgParent.appendChild(image); // Ajout des images au conteneur<div> des <img> + <p>
+  imgParent.appendChild(paragraphe); // Ajout des taglines au conteneur<div> des <img> + <p>
+  dotsParent.appendChild(dot); // Ajout des dot au conteneur<div> des dots
 }
-// Création des diapositives
-slides.forEach(createAndShowSlide);
 
-// Attend que le DOM soit entièrement chargé
-document.addEventListener("DOMContentLoaded", function () {
-    // Sélection des diapositives
-    const bannerImages = document.querySelectorAll(".banner-img");
-    let currentIndex = 0;
+// Sélection des flèches de navigation
+let arrowLeft = document.querySelector(".arrow_left"); // Sélection de la flèche gauche
+let arrowRight = document.querySelector(".arrow_right"); // Sélection de la flèche droite
 
-    // Fonction pour masquer la diapositive actuelle
-    function hideCurrentSlide() {
-        bannerImages[currentIndex].style.display = "none";
+// Sélection de tous les éléments avec la classe "dot"
+let dots = document.querySelectorAll(".dot"); // Sélection de tous les dots
+
+// Fonction pour mettre à jour le contenu en fonction de l'indice
+function updateContent(index) {
+  // Mise à jour du dot actif
+  dots.forEach(function(dot, i) {
+    if (i === index) {
+      dot.classList.add("dot_selected"); // Ajout de la classe "dot_selected" au dot actif
+    } else {
+      dot.classList.remove("dot_selected"); // Suppression de la classe "dot_selected" des autres dots
     }
+  });
 
-    // Fonction pour afficher une diapositive spécifique par son index
-    function showSlide(index) {
-        hideCurrentSlide();
-        currentIndex = (index + bannerImages.length) % bannerImages.length;
-        bannerImages[currentIndex].style.display = "block";
-        updateDots();
+  // Mise à jour de l'image
+  const bannerImages = document.querySelectorAll(".banner-img"); // Sélection de toutes les images
+  bannerImages.forEach(function(image, i) {
+    if (i === index) {
+      image.style.display = "block"; // Affichage de l'image qui correspond à l'indice actif
+    } else {
+      image.style.display = "none"; // Masquage des autres images
     }
+  });
 
-    // Fonction pour mettre à jour l'état des dots
-    function updateDots() {
-        const dots = document.querySelectorAll(".dot");
-        dots.forEach((dot, index) => {
-            dot.classList.toggle("active", index === currentIndex);
-        });
+  // Mise à jour du texte qui correspond à l'image
+  const tagLines = document.querySelectorAll(".tagLine"); // Sélection de tous les textes
+  tagLines.forEach(function(tagLine, i) {
+    if (i === index) {
+      tagLine.style.display = "block"; // Affichage du texte qui correspond à l'indice actif
+    } else {
+      tagLine.style.display = "none"; // Masquage des autres textes
     }
+  });
+}
 
-    //événement pour la flèche gauche
-    const arrowLeft = document.querySelector(".arrow_left");
-    arrowLeft.addEventListener("click", () => showSlide(currentIndex - 1));
-
-    //événement pour la flèche droite
-    const arrowRight = document.querySelector(".arrow_right");
-    arrowRight.addEventListener("click", () => showSlide(currentIndex + 1));
-
-    // Sélection du conteneur des dots
-    const dotsContainer = document.querySelector(".dots-container");
-
-    // Création des dots et ajout au conteneur
-    bannerImages.forEach((_, index) => {
-        const dot = document.createElement("span");
-        dot.classList.add("dot");
-        dot.dataset.index = index;
-        dotsContainer.appendChild(dot);
-    });
-
-    // Met à jour les dots lors du chargement de la page
-    updateDots();
-
-    // Sélection de tous les dots
-    const dots = document.querySelectorAll(".dot");
-
-    // événement pour les dots
-    dots.forEach((dot) => {
-        dot.addEventListener("click", () => {
-            const index = parseInt(dot.dataset.index);
-            showSlide(index);
-        });
-    });
+// Ajout d'un event listener pour la flèche droite
+arrowRight.addEventListener("click", function() {
+  console.log("Clic sur la flèche droite");
+  currentIndex++; // indice de la diapositive actuelle
+  if (currentIndex >= nombreSlides) {
+    currentIndex = 0; // Boucle à la première diapositive si on atteint la fin
+  }
+  updateContent(currentIndex); // Mise à jour du contenu en fonction du nouvel indice
 });
 
+// Ajout d'un event listener pour la flèche gauche
+arrowLeft.addEventListener("click", function() {
+  console.log("Clic sur la flèche gauche");
+  currentIndex--; // Décrémentation de l'indice de la diapositive actuelle
+  if (currentIndex < 0) {
+    currentIndex = nombreSlides - 1; // Boucle à la dernière diapositive si on atteint le début
+  }
+  updateContent(currentIndex); // Mise à jour du contenu en fonction du nouvel indice 
+});
 
-
-
-
-
-
-
-// /*----------------------------------------------------------------------------------------------- */
-
-// // Données des diapositives
-// const slides = [
-// 	{
-// 		"image":"slide1.jpg",
-// 		"tagLine":"Impressions tous formats <span>en boutique et en ligne</span>"
-// 	},
-// 	{
-// 		"image":"slide2.jpg",
-// 		"tagLine":"Tirages haute définition grand format <span>pour vos bureaux et events</span>"
-// 	},
-// 	{
-// 		"image":"slide3.jpg",
-// 		"tagLine":"Grand choix de couleurs <span>de CMJN aux pantones</span>"
-// 	},
-// 	{
-// 		"image":"slide4.png",
-// 		"tagLine":"Autocollants <span>avec découpe laser sur mesure</span>"
-// 	}
-// ];
-
-// // Sélectionne le conteneur des diapositives
-// const bannerSlides = document.querySelector(".banner-slides");
-
-// // Fonction pour créer et afficher une diapositive
-// slides.forEach(function(slide, index) {
-//     const slideDiv = document.createElement("div");
-//     slideDiv.classList.add("banner-img");
-
-//     const img = document.createElement("img");
-//     img.src = `./assets/images/slideshow/${slide.image}`;
-//     img.alt = `Banner img${index + 1}`;
-
-//     const p = document.createElement("p");
-//     p.innerHTML = slide.tagLine;
-
-//     slideDiv.appendChild(img);
-//     slideDiv.appendChild(p);
-//     bannerSlides.appendChild(slideDiv);
-// });
-
-// /*----------------------------------------------------------------------------------------------- */
-
-// // Attend que le DOM soit entièrement chargé
-// document.addEventListener("DOMContentLoaded", function () {
-//     // Sélectionne toutes les images de la bannière
-//     const bannerImages = document.querySelectorAll(".banner-img");
-//     // Initialise l'index de la diapositive actuelle
-//     let currentIndex = 0;
-
-// // Fonction pour masquer la diapositive actuelle
-//     function hideCurrentSlide() {
-//         bannerImages[currentIndex].style.display = "none";
-//     }
-
-// // Fonction pour afficher une diapositive spécifique par son index
-//     function showSlide(index) {
-//         hideCurrentSlide();
-//         // Utilise une opération modulo pour gérer le défilement infini
-//         currentIndex = (index + bannerImages.length) % bannerImages.length;
-//         // Affiche la diapositive sélectionnée
-//         bannerImages[currentIndex].style.display = "block";
-//         // Met à jour l'état des dots
-//         updateDots();
-//     }
-
-// // Fonction pour mettre à jour l'état des dots
-//     function updateDots() {
-//         const dots = document.querySelectorAll(".dot");
-//         dots.forEach((dot, index) => {
-//             // Ajoute la classe "active" au dot correspondant à l'index courant
-//             dot.classList.toggle("active", index === currentIndex);
-//         });
-//     }
-
-// // événement pour la flèche gauche
-//     const arrowLeft = document.querySelector(".arrow_left");
-//     arrowLeft.addEventListener("click", () => showSlide(currentIndex - 1));
-
-// // événement pour la flèche droite
-//     const arrowRight = document.querySelector(".arrow_right");
-//     arrowRight.addEventListener("click", () => showSlide(currentIndex + 1));
-
-//     // Sélectionne le conteneur des dots
-//     const dotsContainer = document.querySelector(".dots-container");
-    
-//     // Crée les dots et les ajoute au conteneur
-//     bannerImages.forEach((_, index) => {
-//         const dot = document.createElement("span");
-//         dot.classList.add("dot");
-//         dot.dataset.index = index;
-//         dotsContainer.appendChild(dot);
-//     });
-
-//     // Met à jour les dots lors du chargement de la page
-//     updateDots();
-
-//     // Sélectionne tous les dots
-//     const dots = document.querySelectorAll(".dot");
-
-// //événement pour les dots
-//     dots.forEach((dot) => {
-//         dot.addEventListener("click", () => {
-//             const index = parseInt(dot.dataset.index);
-//             // Affiche la diapositive correspondant au dot cliqué
-//             showSlide(index);
-//         });
-//     });
-// });
-
-
-
-// // Données des diapositives
-// const slides = [
-//     {
-//         "image": "slide1.jpg",
-//         "tagLine": "Impressions tous formats <span>en boutique et en ligne</span>"
-//     },
-//     {
-//         "image": "slide2.jpg",
-//         "tagLine": "Tirages haute définition grand format <span>pour vos bureaux et events</span>"
-//     },
-//     {
-//         "image": "slide3.jpg",
-//         "tagLine": "Grand choix de couleurs <span>de CMJN aux pantones</span>"
-//     },
-//     {
-//         "image": "slide4.png",
-//         "tagLine": "Autocollants <span>avec découpe laser sur mesure</span>"
-//     }
-// ];
-
-// // Sélection du conteneur des diapositives
-// const bannerSlides = document.querySelector(".banner-slides");
-
-// // Fonction pour créer et afficher une diapositive
-// function createAndShowSlide(slide, index) {
-//     const slideDiv = document.createElement("div");
-//     slideDiv.classList.add("banner-img");
-
-//     const img = document.createElement("img");
-//     img.src = `./assets/images/slideshow/${slide.image}`;
-//     img.alt = `Banner img${index + 1}`;
-
-//     const p = document.createElement("p");
-//     p.innerHTML = slide.tagLine;
-
-//     slideDiv.appendChild(img);
-//     slideDiv.appendChild(p);
-//     bannerSlides.appendChild(slideDiv);
-// }
-
-// // Création des diapositives
-// slides.forEach(createAndShowSlide);
-
-// // Attend que le DOM soit entièrement chargé
-// document.addEventListener("DOMContentLoaded", function () {
-//     // Sélection des diapositives
-//     const bannerImages = document.querySelectorAll(".banner-img");
-//     let currentIndex = 0;
-
-//     // Fonction pour masquer la diapositive actuelle
-//     function hideCurrentSlide() {
-//         bannerImages[currentIndex].style.display = "none";
-//     }
-
-//     // Fonction pour afficher une diapositive spécifique par son index
-//     function showSlide(index) {
-//         hideCurrentSlide();
-//         currentIndex = (index + bannerImages.length) % bannerImages.length;
-//         bannerImages[currentIndex].style.display = "block";
-//         updateDots();
-//     }
-
-//     // Fonction pour mettre à jour l'état des dots
-//     function updateDots() {
-//         const dots = document.querySelectorAll(".dot");
-//         dots.forEach((dot, index) => {
-//             dot.classList.toggle("active", index === currentIndex);
-//         });
-//     }
-
-//     // Gestionnaire d'événement pour la flèche gauche
-//     const arrowLeft = document.querySelector(".arrow_left");
-//     arrowLeft.addEventListener("click", () => showSlide(currentIndex - 1));
-
-//     // Gestionnaire d'événement pour la flèche droite
-//     const arrowRight = document.querySelector(".arrow_right");
-//     arrowRight.addEventListener("click", () => showSlide(currentIndex + 1));
-
-//     // Sélection du conteneur des dots
-//     const dotsContainer = document.querySelector(".dots-container");
-
-//     // Création des dots et ajout au conteneur
-//     bannerImages.forEach((_, index) => {
-//         const dot = document.createElement("span");
-//         dot.classList.add("dot");
-//         dot.dataset.index = index;
-//         dotsContainer.appendChild(dot);
-//     });
-
-//     // Met à jour les dots lors du chargement de la page
-//     updateDots();
-
-//     // Sélection de tous les dots
-//     const dots = document.querySelectorAll(".dot");
-
-//     // Gestionnaire d'événement pour les dots
-//     dots.forEach((dot) => {
-//         dot.addEventListener("click", () => {
-//             const index = parseInt(dot.dataset.index);
-//             showSlide(index);
-//         });
-//     });
-// });
-
-
-
-
-
-
-
-
-  /*----------------------------------------------------------------------*/
-
-// let arrowLeft = document.querySelector('.arrow_left');
-
-// arrowLeft.addEventListener("click", () => {
-//   console.log("J'ai cliqué sur arrow left");
-// });
-
-// let arrowRight = document.querySelector('.arrow_right');
-
-// arrowRight.addEventListener("click", () => {
-//   console.log("J'ai cliqué sur arrow right");
-// });
-  
-  
-  
-  /*---------------------------------------------------------------------------*/
-
-  // // Sélectionnez l'élément HTML où vous souhaitez afficher les points (dots)
-// const dotsContainer = document.querySelector(".dots-container");
-
-// // Boucle pour générer les points (dots) en fonction du nombre d'images dans le tableau slides
-// slides.forEach(function(slide, index) {
-//     const dot = document.createElement("span");
-//     dot.classList.add("dot"); // Ajoutez une classe pour styliser les points si nécessaire
-//     dot.dataset.index = index; // Stockez l'index de la diapositive dans un attribut data pour la gestion des clics
-
-//     dotsContainer.appendChild(dot);
-// });
-
-// // Sélectionnez tous les éléments dot (points)
-// const dots = document.querySelectorAll(".dot");
-
-// // Ajoutez un gestionnaire d'événements pour chaque point (dot) afin de gérer la navigation
-// dots.forEach(function(dot) {
-//     dot.addEventListener("click", function() {
-//         const index = parseInt(dot.dataset.index);
-        
-//     });
-// 	// Fonction pour masquer la diapositive actuelle
-// function hideCurrentSlide() {
-//     bannerImages[currentIndex].style.display = "none";
-// }
-
-// // Fonction pour afficher la diapositive correspondant à l'index actuel
-// function showCurrentSlide() {
-//     bannerImages[currentIndex].style.display = "block";
-// }
-// });
-
-
-/*--------------------------------------------------------------------------------*/
-
-
-//METHODE 1 
-
-// document.addEventListener("DOMContentLoaded", function () {
-// 	const bannerImages = document.querySelectorAll(".banner-img");
-// 	let currentIndex = 0;
-
-// // ARROW LEFT
-// 	const arrowLeft = document.querySelector(".arrow_left");
-// 	arrowLeft.addEventListener("click", function () {
-
-// 	  bannerImages[currentIndex].style.display = "none";
-
-// 	  currentIndex = (currentIndex - 1 + bannerImages.length) % bannerImages.length;
-
-// 	  bannerImages[currentIndex].style.display = "block";
-// 	});
-
-// // ARROW RIGHT
-// 	const arrowRight = document.querySelector(".arrow_right");
-// 	arrowRight.addEventListener("click", function () {
-// 	  // Masque la diapositive actuelle
-// 	  bannerImages[currentIndex].style.display = "none";
-  
-// 	  // Index pour passer à la diapositive précédente
-// 	  currentIndex = (currentIndex + 1 + bannerImages.length) % bannerImages.length;
-  
-// 	  // Affiche la diapositive précédente
-// 	  bannerImages[currentIndex].style.display = "block";
-// 	});
-//   });
-  
 
