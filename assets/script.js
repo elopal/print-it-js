@@ -22,6 +22,8 @@ const nombreSlides = slides.length;
 console.log(nombreSlides); // Affiche le nombre de diapositives dans la console
 let currentIndex = 0; // Initialise un indice pour suivre la diapositive actuelle
 
+//-------------------------------------------------------- Mise en place du contenu du carrousel -----------------------------------------------------------------------------------
+
 // Sélection du conteneur pour les images, les textes et les dots
 const imgParent = document.querySelector(".banner-slides"); // Sélection du conteneur<div> des <img> + <p>
 const dotsParent = document.querySelector(".dots"); // Sélection du conteneur<div> des dots 
@@ -47,6 +49,8 @@ for (let i = 0; i < nombreSlides; i++) {
   imgParent.appendChild(paragraphe); // Ajout des taglines au conteneur<div> des <img> + <p>
   dotsParent.appendChild(dot); // Ajout des dot au conteneur<div> des dots
 }
+
+//-------------------------------------------------- Mise en place du défilement infini sur le carrousel -----------------------------------------------------------------------------------
 
 // Sélection des flèches de navigation
 let arrowLeft = document.querySelector(".arrow_left"); // Sélection de la flèche gauche
