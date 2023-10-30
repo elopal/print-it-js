@@ -179,6 +179,15 @@ header {
 	border: 1px solid #E6F4FB;
 }
 
+/* .tag_selected {
+	display : block;
+}
+.not_selected {
+	display: none;
+}
+.img_selected {
+	display:block;
+} */
 /* Fin du code CSS pour le carousel */
 
 #banner p {
